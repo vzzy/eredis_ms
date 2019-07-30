@@ -8,6 +8,8 @@ Build
 
     $ rebar3 compile
     $ erl -pa _build/default/lib/*/ebin -pa _build/default/lib/*/priv -config sys.config -s eredis_ms
+    > ems:add_ms([]).
+    
 	> eredis_ms:set(pool,<<"a">>,<<"1">>).
 	{ok,<<"OK">>}
 	> eredis_ms:setnx(pool,<<"a">>,<<"1">>).
