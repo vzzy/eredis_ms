@@ -21,6 +21,8 @@
 	exists/2,
 	ttl/2,
 	expire/3,
+	incr/2,
+	incrby/3,
 	del/3,
 	mset/3,
 	mget/3,
@@ -116,6 +118,20 @@ ttl(Poolname,Key)->
 	case ems:get_client_read(Poolname,Key) of
 		{ok,Client}->
 			eredis:q(Client, ["TTL",Key], ?TIMEOUT);
+		R->
+			R
+	end.
+incr(Poolname,Key)->
+	case ems:get_client_write(Poolname,Key) of
+		{ok,Client}->
+			eredis:q(Client, ["INCR",Key], ?TIMEOUT);
+		R->
+			R
+	end.
+incrby(Poolname,Key,Increment)->
+	case ems:get_client_write(Poolname,Key) of
+		{ok,Client}->
+			eredis:q(Client, ["INCRBY",Key,Increment], ?TIMEOUT);
 		R->
 			R
 	end.
