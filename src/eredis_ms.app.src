@@ -5,7 +5,9 @@
   {mod, { eredis_ms_app, []}},
   {applications,
    [kernel,
-    stdlib
+    stdlib,
+	eredis,
+	ems
    ]},
   {env,[]},
   {modules, []},
