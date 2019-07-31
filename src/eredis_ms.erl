@@ -43,6 +43,8 @@
 	lpop/2,
 	rpop/2,
 	llen/2,
+	lrange/4,
+	
 	sadd/3,
 	srem/3,
 	spop/2,
@@ -269,6 +271,13 @@ llen(Poolname,Key)->
 	case ems:get_client_read(Poolname,Key) of
 		{ok,Client}->
 			eredis:q(Client, ["LLEN",Key], ?TIMEOUT);
+		R->
+			R
+	end.
+lrange(Poolname,Key,Start,Stop)->
+	case ems:get_client_read(Poolname,Key) of
+		{ok,Client}->
+			eredis:q(Client, ["LRANGE",Key,Start,Stop], ?TIMEOUT);
 		R->
 			R
 	end.
