@@ -48,7 +48,11 @@
 	sadd/3,
 	srem/3,
 	spop/2,
-	smembers/2
+	smembers/2,
+	
+	zadd/3,
+	zrange/4,
+	zrem/3
 ]).
 -define(TIMEOUT, 5000).
 
@@ -308,6 +312,28 @@ smembers(Poolname,Key)->
 			%% 改成游标
 			
 			eredis:q(Client, ["SMEMBERS",Key], ?TIMEOUT);
+		R->
+			R
+	end.
+
+zadd(Poolname,Key,ScoreMemberPairs)->
+	case ems:get_client_write(Poolname,Key) of
+		{ok,Client}->
+			eredis:q(Client, ["ZADD",Key | ScoreMemberPairs], ?TIMEOUT);
+		R->
+			R
+	end.
+zrange(Poolname,Key,Start,Stop)->
+	case ems:get_client_read(Poolname,Key) of
+		{ok,Client}->
+			eredis:q(Client, ["ZRANGE",Key,Start,Stop], ?TIMEOUT);
+		R->
+			R
+	end.
+zrem(Poolname,Key,MemberPairs)->
+	case ems:get_client_write(Poolname,Key) of
+		{ok,Client}->
+			eredis:q(Client, ["ZREM",Key | MemberPairs], ?TIMEOUT);
 		R->
 			R
 	end.
