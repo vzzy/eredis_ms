@@ -24,6 +24,7 @@
 	expire/3,
 	incr/2,
 	incrby/3,
+	del/2, 
 	del/3,
 	mset/3,
 	mget/3,
@@ -171,6 +172,8 @@ expire(Poolname,Key,Seconds)->
 		R->
 			R
 	end.
+del(Poolname,Key)->
+	del(Poolname,Key,[Key]).	
 del(Poolname,Key,KeyPairs)->
 	case ems:get_client_write(Poolname,Key) of
 		{ok,Client}->
